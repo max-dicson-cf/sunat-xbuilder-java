@@ -56,14 +56,19 @@
             <cbc:ConditionCode>3</cbc:ConditionCode>
         </cac:Status>
         <sac:TotalAmount currencyID="PEN">100</sac:TotalAmount>
+        <sac:BillingPayment>
+            <cbc:PaidAmount currencyID="PEN">100</cbc:PaidAmount>
+            <cbc:InstructionID>02</cbc:InstructionID>
+        </sac:BillingPayment>
         <cac:TaxTotal>
             <cbc:TaxAmount currencyID="PEN">0</cbc:TaxAmount>
             <cac:TaxSubtotal>
                 <cbc:TaxAmount currencyID="PEN">0</cbc:TaxAmount>
                 <cac:TaxCategory>
+                    <cbc:Percent>0</cbc:Percent>
                     <cac:TaxScheme>
-                        <cbc:ID>1000</cbc:ID>
-                        <cbc:Name>IGV</cbc:Name>
+                        <cbc:ID>9997</cbc:ID>
+                        <cbc:Name>EXO</cbc:Name>
                         <cbc:TaxTypeCode>VAT</cbc:TaxTypeCode>
                     </cac:TaxScheme>
                 </cac:TaxCategory>

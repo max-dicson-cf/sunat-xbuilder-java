@@ -86,10 +86,13 @@
             <cac:TaxSubtotal>
                 <cbc:TaxAmount currencyID="{it.comprobante.moneda}">{it.comprobante.impuestos.igv}</cbc:TaxAmount>
                 <cac:TaxCategory>
+                    {#if it.comprobante.impuestos.igvAplicable}
+                    <cbc:Percent>{it.comprobante.impuestos.tasaIgv}</cbc:Percent>
+                    {/if}
                     <cac:TaxScheme>
-                        <cbc:ID>1000</cbc:ID>
-                        <cbc:Name>IGV</cbc:Name>
-                        <cbc:TaxTypeCode>VAT</cbc:TaxTypeCode>
+                        <cbc:ID>{it.comprobante.impuestos.tributo.code}</cbc:ID>
+                        <cbc:Name>{it.comprobante.impuestos.tributo.nombre}</cbc:Name>
+                        <cbc:TaxTypeCode>{it.comprobante.impuestos.tributo.tipo}</cbc:TaxTypeCode>
                     </cac:TaxScheme>
                 </cac:TaxCategory>
             </cac:TaxSubtotal>

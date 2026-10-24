@@ -1,5 +1,6 @@
 package io.github.project.openubl.xbuilder.content.models.sunat.resumen;
 
+import io.github.project.openubl.xbuilder.content.catalogs.Catalog5;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +17,15 @@ public class ComprobanteImpuestos {
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "IGV del comprobante")
     private BigDecimal igv;
+
+    @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Tasa de IGV del comprobante")
+    private BigDecimal tasaIgv;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Indica si el resumen debe emitir la tasa de IGV")
+    private boolean igvAplicable;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Tributo principal del comprobante")
+    private Catalog5 tributo;
 
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "ICB del comprobante")
     private BigDecimal icb;

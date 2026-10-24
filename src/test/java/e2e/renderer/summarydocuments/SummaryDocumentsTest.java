@@ -4,6 +4,7 @@ import e2e.AbstractTest;
 import io.github.project.openubl.xbuilder.content.catalogs.Catalog1;
 import io.github.project.openubl.xbuilder.content.catalogs.Catalog19;
 import io.github.project.openubl.xbuilder.content.catalogs.Catalog1_Invoice;
+import io.github.project.openubl.xbuilder.content.catalogs.Catalog5;
 import io.github.project.openubl.xbuilder.content.catalogs.Catalog6;
 import io.github.project.openubl.xbuilder.content.models.common.Cliente;
 import io.github.project.openubl.xbuilder.content.models.common.Proveedor;
@@ -43,6 +44,9 @@ public class SummaryDocumentsTest extends AbstractTest {
                                 )
                                 .impuestos(ComprobanteImpuestos.builder()
                                         .igv(new BigDecimal("18"))
+                                        .igvAplicable(true)
+                                        .tasaIgv(new BigDecimal("18"))
+                                        .tributo(Catalog5.IGV)
                                         .icb(new BigDecimal(2))
                                         .build()
                                 )
@@ -73,6 +77,9 @@ public class SummaryDocumentsTest extends AbstractTest {
                                 )
                                 .impuestos(ComprobanteImpuestos.builder()
                                         .igv(new BigDecimal("18"))
+                                        .igvAplicable(true)
+                                        .tasaIgv(new BigDecimal("18"))
+                                        .tributo(Catalog5.IGV)
                                         .build()
                                 )
                                 .valorVenta(ComprobanteValorVenta.builder()
@@ -113,12 +120,15 @@ public class SummaryDocumentsTest extends AbstractTest {
                                 )
                                 .impuestos(ComprobanteImpuestos.builder()
                                         .igv(new BigDecimal("0"))
+                                        .igvAplicable(true)
+                                        .tasaIgv(BigDecimal.ZERO)
+                                        .tributo(Catalog5.EXONERADO)
                                         .build()
                                 )
                                 .valorVenta(ComprobanteValorVenta.builder()
                                         .importeTotal(new BigDecimal("100"))
                                         .gravado(new BigDecimal("0"))
-                                        .exonerado(new BigDecimal("0"))
+                                        .exonerado(new BigDecimal("100"))
                                         .build()
                                 )
                                 .build()

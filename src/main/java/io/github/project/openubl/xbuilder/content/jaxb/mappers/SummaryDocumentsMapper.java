@@ -105,9 +105,30 @@ public interface SummaryDocumentsMapper {
                                 .orElse(null),
                         taxTotal -> Optional.ofNullable(taxTotal.getTaxAmount()).orElse(BigDecimal.ZERO)
                 ));
+        Catalog5 tributo = taxTotals.keySet().stream()
+                .filter(code -> code == Catalog5.IGV || code == Catalog5.EXONERADO || code == Catalog5.INAFECTO)
+                .findFirst()
+                .orElse(Catalog5.IGV);
+        BigDecimal igvRate = Optional.ofNullable(xml.getTaxTotals())
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(taxTotal -> Optional.ofNullable(taxTotal.getTaxSubtotals())
+                        .flatMap(f -> Optional.ofNullable(f.getTaxCategory()))
+                        .flatMap(f -> Optional.ofNullable(f.getTaxScheme()))
+                        .flatMap(taxScheme -> Optional.ofNullable(taxScheme.getId()))
+                        .flatMap(code -> Catalog.valueOfCode(Catalog5.class, code))
+                        .filter(tributo::equals)
+                        .isPresent())
+                .map(taxTotal -> taxTotal.getTaxSubtotals().getTaxCategory().getPercent())
+                .filter(java.util.Objects::nonNull)
+                .findFirst()
+                .orElse(null);
 
         return ComprobanteImpuestos.builder()
-                .igv(taxTotals.get(Catalog5.IGV))
+                .igv(taxTotals.getOrDefault(tributo, BigDecimal.ZERO))
+                .igvAplicable(true)
+                .tasaIgv(igvRate)
+                .tributo(tributo)
                 .icb(taxTotals.get(Catalog5.ICBPER))
                 .build();
     }
