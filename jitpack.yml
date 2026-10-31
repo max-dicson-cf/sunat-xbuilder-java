@@ -1,4 +1,6 @@
-jdk: openjdk21
+jdk:
+  - openjdk17
 
 install:
-  - ./mvnw -B clean install -DskipTests
+  - mvn -N wrapper:wrapper -Dmaven=3.9.9
+  - ./mvnw -B -U clean install -Ppublication -DskipTests

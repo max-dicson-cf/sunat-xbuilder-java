@@ -2,9 +2,17 @@
 
 Construcción, validación y firma de comprobantes XML UBL 2.1 para SUNAT (Perú).
 
-> Código extraído del monorepo [project-openubl/xhandler](https://github.com/project-openubl/xhandler).
-> Versión de origen: `5.1.2-SNAPSHOT` (POM padre `io.github.project-openubl:xhandler-parent:5.1.2-SNAPSHOT`).
-> Licencia: Apache 2.0 (ver [LICENSE](LICENSE)).
+> Este proyecto es un fork mantenido independientemente del módulo XBuilder de
+> [Project OpenUBL / xhandler](https://github.com/project-openubl/xhandler).
+> Su base inicial corresponde a `5.1.2-SNAPSHOT` (POM padre
+> `io.github.project-openubl:xhandler-parent:5.1.2-SNAPSHOT`). Agradecemos a
+> Carlos Esteban Feria Vila y a Project OpenUBL por el trabajo original que hizo
+> posible este punto de partida.
+>
+> El fork conserva la licencia Apache 2.0 (ver [LICENSE](LICENSE)), mantiene su
+> código fuente abierto y continuará evolucionando de forma independiente. No es
+> un proyecto afiliado ni respaldado oficialmente por Project OpenUBL. La
+> atribución distribuible se conserva también en [NOTICE](NOTICE).
 
 ## Alcance
 
@@ -117,29 +125,56 @@ contra SUNAT beta fueron eliminados de esta librería; pertenecen a
 
 ## Publicación / JitPack
 
-Coordenadas Maven:
+La primera distribución debe ser un snapshot de una rama o commit, no un release.
+JitPack compila el repositorio Git remoto bajo demanda; antes de solicitarlo, el
+commit debe estar publicado en GitHub y el repositorio debe ser público (o usar la
+configuración de repositorios privados de JitPack).
+
+`jitpack.yml` usa Java 17, genera Maven Wrapper 3.9.9 en el entorno efímero de
+JitPack y ejecuta:
+
+```bash
+mvn -N wrapper:wrapper -Dmaven=3.9.9
+./mvnw -B -U clean install -Ppublication -DskipTests
+```
+
+El perfil `publication` adjunta los JAR de fuentes y Javadoc. JitPack no requiere
+una librería, plugin de despliegue, claves GPG ni `distributionManagement`.
+
+Para probar un snapshot sin crear un release, abre el repositorio en JitPack y
+solicita el commit corto o la rama:
+
+```text
+https://jitpack.io/#max-dicson-cf/sunat-xbuilder-java
+```
+
+Usa un hash de commit para una prueba inmutable o `main-SNAPSHOT` para seguir la
+rama principal. JitPack mostrará las coordenadas Maven definitivas del build; usa
+esas coordenadas en los consumidores en vez de asumir las de una futura release.
+
+Todo snapshot debe superar localmente antes:
+
+```bash
+mvn -U clean test
+mvn -U clean install -Ppublication
+```
+
+### Consumo desde JitPack
+
+Agrega el repositorio:
 
 ```xml
-<dependency>
-    <groupId>io.github.project-openubl</groupId>
-    <artifactId>sunat-xbuilder-java</artifactId>
-    <version>5.1.2-SNAPSHOT</version>
-</dependency>
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
 ```
-
-Para JitPack se incluye `jitpack.yml` con JDK 21. **No ha sido probado con JDK 21
-en este entorno** por falta de JDK 21 instalado; sí compila correctamente con JDK 17.
-
-```yaml
-jdk: openjdk21
-install:
-  - ./mvnw -B clean install -DskipTests
-```
-
-Si falla en JitPack con JDK 21, prueba primero con `openjdk17` en `jitpack.yml`.
 
 ## Atribución
 
 * Autor original: Carlos Esteban Feria Vila y el proyecto Project OpenUBL.
 * Repositorio fuente: https://github.com/project-openubl/xhandler
-* Este repositorio es un fork/derivado que conserva la licencia Apache 2.0.
+* Este repositorio es un fork/derivado que conserva la licencia Apache 2.0 y da
+  mantenimiento independiente al módulo XBuilder.
